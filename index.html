@@ -2,16 +2,126 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>我的GitHub博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的技术博客 - moonlight-dev-alt</title>
     <style>
-        body { text-align: center; margin-top: 100px; font-family: Arial; }
-        h1 { color: #2c3e50; }
-        p { color: #7f8c8d; font-size: 18px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .blog-title {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .blog-desc {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        nav {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        nav a {
+            color: #2c3e50;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #3498db;
+        }
+        .article {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .article h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        .article pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid #eee;
+        }
+        .article p {
+            margin: 12px 0;
+            font-size: 15px;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
-    <h1>博客搭建成功！</h1>
-    <p>用户名：moonlight-dev-alt</p>
-    <p>博客地址：moonlight-dev-alt.github.io</p>
+    <header>
+        <div class="container">
+            <h1 class="blog-title">moonlight's 技术博客</h1>
+            <p class="blog-desc">汇编 | 系统调用 | Linux | 编程笔记</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav>
+            <a href="#">首页</a>
+            <a href="#">笔记</a>
+            <a href="#">汇编</a>
+            <a href="#">关于</a>
+        </nav>
+
+        <div class="article">
+            <h2>Linux 系统调用 int 0x80 与 syscall 详解</h2>
+            <p>int 0x80 是 x86 32位Linux下的软中断指令，用于触发系统调用，进入内核态完成权限操作。</p>
+            <p><strong>32位使用 int 0x80，寄存器约定：</strong></p>
+            <pre>
+mov eax, 1    ; 系统调用号
+mov ebx, 0    ; 参数
+int 0x80      ; 触发中断
+            </pre>
+            <p><strong>64位使用 syscall，寄存器约定：</strong></p>
+            <pre>
+mov rax, 60   ; 64位系统调用号
+mov rdi, 0    ; 参数
+syscall       ; 高速系统调用指令
+            </pre>
+            <p>区别：int 0x80 仅兼容32位，64位下推荐使用 syscall，效率更高，支持完整64位地址空间。</p>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 moonlight-dev-alt | GitHub Pages 博客
+    </footer>
 </body>
 </html>
