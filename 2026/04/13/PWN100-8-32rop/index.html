@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://moonlight-dev-alt.github.io/img/butterfly-icon.png">
 <meta property="article:published_time" content="2026-04-13T14:57:37.000Z">
-<meta property="article:modified_time" content="2026-07-31T02:52:46.405Z">
+<meta property="article:modified_time" content="2026-08-04T09:53:22.289Z">
 <meta property="article:author" content="Carpe diem">
 <meta property="article:tag" content="32位rop链">
 <meta name="twitter:card" content="summary">
@@ -18,7 +18,7 @@
   "url": "https://moonlight-dev-alt.github.io/2026/04/13/PWN100-8-32rop/",
   "image": "https://moonlight-dev-alt.github.io/img/butterfly-icon.png",
   "datePublished": "2026-04-13T14:57:37.000Z",
-  "dateModified": "2026-07-31T02:52:46.405Z",
+  "dateModified": "2026-08-04T09:53:22.289Z",
   "author": [
     {
       "@type": "Person",
@@ -159,7 +159,7 @@
   isHighlightShrink: false,
   isToc: true,
   pageType: 'post'
-}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">PWN</span></a><a class="nav-page-title" href="/"><span class="site-name">PWN100_8_32rop</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">PWN100_8_32rop</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-13T14:57:37.000Z" title="发表于 2026-04-13 22:57:37">2026-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-31T02:52:46.405Z" title="更新于 2026-07-31 10:52:46">2026-07-31</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>32位rop链的结构是:<br>[ padding填充字节 ] + [ system函数地址 ] + [ 返回地址占位符 ] + [ &#x2F;bin&#x2F;sh的地址 ]</p>
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">PWN</span></a><a class="nav-page-title" href="/"><span class="site-name">PWN100_8_32rop</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">PWN100_8_32rop</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-13T14:57:37.000Z" title="发表于 2026-04-13 22:57:37">2026-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-04T09:53:22.289Z" title="更新于 2026-08-04 17:53:22">2026-08-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/PWN/">PWN</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>32位rop链的结构是:<br>[ padding填充字节 ] + [ system函数地址 ] + [ 返回地址占位符 ] + [ &#x2F;bin&#x2F;sh的地址 ]</p>
 <h1 id="构造32位payload：填充数据-目标地址1-填充-垃圾数据-目标地址2"><a href="#构造32位payload：填充数据-目标地址1-填充-垃圾数据-目标地址2" class="headerlink" title="构造32位payload：填充数据 + 目标地址1 + 填充&#x2F;垃圾数据 + 目标地址2"></a>构造32位payload：填充数据 + 目标地址1 + 填充&#x2F;垃圾数据 + 目标地址2</h1><p>如果你调用的函数是call system 那就不需要 [ 返回地址占位符 ] ，</p>
 <p>如果我们跳转的call system的时候其实就不需要再填充4个a作为返回地址，因为call 会自动填充返回地址</p>
 <p>call 命令隐含着push eip这个指令，call system这个本质上与push eip；jmp system</p>
